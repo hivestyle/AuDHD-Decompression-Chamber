@@ -1,0 +1,522 @@
+```
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- 💡 防伪层 1：Meta 隐藏声明 -->
+    <meta name="author" content="AuDHD Executive Function Decompression Chamber">
+    <meta name="copyright" content="For Neurodivergent Community. Commercial exploitation is strictly prohibited.">
+    <meta name="generator" content="AuDHD_Anti_Plagiarism_System_2026">
+    <title>AuDHD 减压舱 - 守护大脑续航</title>
+    <style>
+        /* ================= 基础重置与全局边界控制 ================= */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        /* 🌙 默认暗黑模式 (去感官污染) */
+        :root {
+            /* 💡 防伪层 2：CSS 幽灵变量，抄袭者极易忽略并复制过去 */
+            --system-signature: 'Designed_for_AuDHD_Anti_Commercial_Use_2026';
+            
+            --bg-color: #0f0f0f; --surface-color: #1a1a1a; --text-primary: #e0e0e0;
+            --text-secondary: #757575; --accent-color: #333333; --border-color: #2a2a2a;
+            --warning-bg: #221f15; --warning-text: #c4a962; --social-bg: #111820;
+            --social-border: #233140; --prob-bar: #3d5a80; --ai-bg: #151b22;
+            --ai-border: #30363d; --ai-text: #8b949e; --energy-safe: #3b5947;
+            --energy-low: #7a3636; --charge-bg: #121f16; --charge-border: #22382a;
+        }
+
+        /* ☀️ 护眼白天模式 (低对比度、积极心理暗示) */
+        body[data-theme="light"] {
+            --bg-color: #F9F7F3; --surface-color: #FFFFFF; --text-primary: #333333;
+            --text-secondary: #888888; --accent-color: #E8E4D9; --border-color: #E0DDD6;
+            --warning-bg: #FFF8E7; --warning-text: #B8860B; --social-bg: #F0F4F8;
+            --social-border: #D9E2EC; --prob-bar: #627D98; --ai-bg: #F2F8F5;
+            --ai-border: #CDE2D6; --ai-text: #3E7257; --energy-safe: #7FB093;
+            --energy-low: #D48B8B; --charge-bg: #EAF4EE; --charge-border: #B2D1BE;
+        }
+
+        body {
+            background-color: var(--bg-color); color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            padding: 1.5rem 1.5rem 6rem 1.5rem; 
+            max-width: 600px; margin: 0 auto;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        
+        h1, h2, h3 { font-weight: 500; margin: 0; }
+        
+        /* ================= 顶栏重构 ================= */
+        .header {
+            display: flex; flex-direction: column; 
+            border-bottom: 1px solid var(--border-color); 
+            padding-bottom: 1rem; margin-bottom: 1.2rem;
+        }
+        .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .header-title { font-size: 1.3rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .theme-toggle { background: none; border: none; font-size: 1.4rem; cursor: pointer; padding: 4px; flex-shrink: 0; transition: transform 0.2s; }
+        .theme-toggle:active { transform: scale(0.9); }
+        .subtitle { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.5rem; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+
+        @media (max-width: 400px) {
+            .header-title { font-size: 1.1rem; }
+            .subtitle { font-size: 0.75rem; }
+        }
+
+        /* ================= 全局能量天平 ================= */
+        .energy-widget { background-color: var(--surface-color); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; transition: all 0.4s ease; }
+        .energy-header { display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; }
+        .energy-bar-bg { background-color: rgba(0,0,0,0.1); height: 8px; border-radius: 4px; overflow: hidden; border: 1px solid var(--border-color); }
+        body:not([data-theme="light"]) .energy-bar-bg { background-color: #0a0a0a; }
+        .energy-bar-fill { height: 100%; width: 100%; background-color: var(--energy-safe); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease; }
+        .energy-bar-fill.low { background-color: var(--energy-low); }
+        .overload-warning { background-color: var(--warning-bg); border-left: 3px solid var(--energy-low); padding: 16px; border-radius: 0 6px 6px 0; margin-bottom: 24px; font-size: 0.9rem; color: var(--text-primary); display: none; }
+        
+        /* ================= 交互控件 ================= */
+        input[type="text"] { width: 100%; padding: 14px; background-color: var(--surface-color); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 8px; font-size: 0.95rem; margin-bottom: 12px; outline: none; transition: border-color 0.3s; }
+        input[type="text"]:focus { border-color: var(--prob-bar); }
+        
+        .action-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        button { background-color: var(--surface-color); color: var(--text-primary); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; white-space: nowrap; }
+        button:active { transform: scale(0.98); }
+        .primary-btn { background-color: #2b2b2b; color: #e0e0e0; }
+        body[data-theme="light"] .primary-btn { background-color: #4A4A4A; color: #FFFFFF; }
+        .paste-btn { background-color: transparent; color: var(--prob-bar); border-style: dashed; }
+        
+        .template-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .tag { font-size: 0.85rem; padding: 6px 12px; background: transparent; border: 1px solid var(--border-color); border-radius: 20px; color: var(--text-secondary); cursor: pointer; margin: 0;}
+        .tag:hover, body[data-theme="light"] .tag:hover { border-color: var(--text-secondary); color: var(--text-primary); background-color: rgba(128,128,128,0.1); }
+
+        /* ================= 模块专属 ================= */
+        .guide-box { background-color: var(--warning-bg); border-left: 3px solid var(--warning-text); padding: 12px; border-radius: 0 6px 6px 0; margin-bottom: 20px; font-size: 0.85rem; display: none; }
+        .step-item { display: flex; align-items: flex-start; padding: 14px; margin-bottom: 8px; background-color: var(--surface-color); border-radius: 8px; border: 1px solid var(--border-color); opacity: 0.3; pointer-events: none; }
+        .step-item.active { opacity: 1; pointer-events: auto; border-color: #888; transform: translateX(2px); }
+        .step-item.completed { opacity: 0.2; text-decoration: line-through; }
+        .step-item input[type="checkbox"] { margin-top: 4px; margin-right: 12px; transform: scale(1.2); }
+        
+        .category-tabs { display: flex; border-bottom: 1px solid var(--border-color); margin-bottom: 16px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+        .category-tabs::-webkit-scrollbar { display: none; }
+        .tab-btn { flex: 1; background: transparent; color: var(--text-secondary); border: none; padding: 10px 4px; border-bottom: 2px solid transparent; border-radius: 0; min-width: 80px;}
+        .tab-btn.active { color: var(--prob-bar); border-bottom: 2px solid var(--prob-bar); background-color: rgba(0,0,0,0.02); font-weight: bold; }
+        .social-decoder-box { background-color: var(--social-bg); border: 1px solid var(--social-border); padding: 16px; border-radius: 8px; margin-bottom: 20px; display: none; }
+        .prob-container { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.85rem; }
+        .prob-label { width: 100px; color: var(--text-secondary); font-size: 0.8rem; }
+        .prob-bar-wrapper { flex: 1; background-color: rgba(0,0,0,0.1); height: 6px; border-radius: 3px; overflow: hidden; margin-right: 10px; }
+        .prob-bar-fill { height: 100%; background-color: var(--prob-bar); }
+        .script-content { background-color: rgba(0,0,0,0.1); padding: 12px; border-radius: 6px; border-left: 3px solid var(--prob-bar); font-size: 0.9rem; margin-top: 10px;}
+        body[data-theme="light"] .script-content { background-color: #FFFFFF; border: 1px solid var(--social-border); border-left: 3px solid var(--prob-bar); }
+
+        .energy-control-panel { display: flex; flex-direction: column; gap: 16px; margin-top: 10px; }
+        .energy-card { border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; background-color: var(--surface-color); }
+        .energy-card.charge { background-color: var(--charge-bg); border-color: var(--charge-border); }
+        .energy-card-title { font-size: 0.95rem; margin-bottom: 12px; color: var(--text-secondary); }
+        .energy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 480px) { .energy-grid { grid-template-columns: 1fr; } }
+        .e-btn { display: flex; justify-content: space-between; align-items: center; width: 100%; text-align: left; padding: 12px; font-size:0.85rem;}
+        .e-btn.drain:hover { border-color: var(--energy-low); }
+        .e-btn.add { border-color: var(--energy-safe); color: var(--energy-safe); }
+        .e-btn.add:hover { background-color: var(--energy-safe); color: #fff; }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
+            display: none; justify-content: center; align-items: center; z-index: 2000;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .modal-overlay.show { opacity: 1; display: flex; }
+        .modal-box {
+            background-color: var(--surface-color); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 24px; max-width: 90%; width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(20px); transition: transform 0.3s ease;
+        }
+        .modal-overlay.show .modal-box { transform: translateY(0); }
+        .modal-title { font-size: 1.05rem; color: var(--energy-safe); margin-bottom: 14px; font-weight: bold; }
+        .modal-content { font-size: 0.9rem; color: var(--text-primary); margin-bottom: 24px; line-height: 1.6; }
+
+        .ai-prompt-box { background-color: var(--ai-bg); border: 1px dashed var(--ai-border); padding: 12px; border-radius: 8px; display: none; }
+        .prompt-text { font-family: monospace; background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 10px; word-break: break-all; }
+        body[data-theme="light"] .prompt-text { background-color: #FFFFFF; border: 1px solid var(--ai-border); }
+
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 60px; background-color: var(--surface-color); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; align-items: center; max-width: 600px; margin: 0 auto; z-index: 1000; padding-bottom: env(safe-area-inset-bottom); }
+        .nav-item { color: var(--text-secondary); text-decoration: none; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex: 1; padding: 8px 0;}
+        .nav-item.active { color: var(--prob-bar); font-weight: bold; }
+        
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 💡 防伪层 3：隐形 DOM 水印类 */
+        .system-watermark { display: none !important; opacity: 0; pointer-events: none; position: absolute; z-index: -999; }
+    </style>
+</head>
+<body>
+
+    <!-- 💡 防伪层 3：隐形 DOM 版权声明 -->
+    <div class="system-watermark">
+        Copyright 2026. This AuDHD Decompression Chamber Web App is custom-designed for neurodivergent individuals. Any unauthorized commercial copying, packaging, or reselling is strictly prohibited.
+    </div>
+
+    <!-- 顶栏与全局能量指示器 -->
+    <div class="header">
+        <div class="header-top">
+            <h1 class="header-title">AuDHD 执行功能减压舱</h1>
+            <button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" title="切换昼夜模式">☀️</button>
+        </div>
+        <div class="subtitle" id="global-subtitle">—— 拒绝焦虑瘫痪 · 将模糊任务原子化拆解 ——</div>
+    </div>
+    
+    <div class="energy-widget">
+        <div class="energy-header">
+            <span>🔋 前额叶认知能量 (Cognitive Energy)</span>
+            <span id="energy-text" style="font-family: monospace; font-weight: bold;">100%</span>
+        </div>
+        <div class="energy-bar-bg"><div id="energy-bar-fill" class="energy-bar-fill"></div></div>
+    </div>
+    
+    <div id="overload-warning" class="overload-warning">
+        🚨 <strong>能量枯竭警告 (System Shutdown Risk)：</strong>你的认知与感官资源已达临界点。为防止灾难性的神经能量枯竭，请立即停止任务，退至安全空间。
+    </div>
+
+    <!-- ================= 模块一：任务拆解器 ================= -->
+    <div id="view-task" class="view-section active">
+        <div>
+            <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px;">✨ 快捷场景模板（点击直接填入）</h3>
+            <div class="template-tags">
+                <button class="tag" onclick="fillTaskTemplate('给导师/领导写邮件')">✉ 撰写重要邮件</button>
+                <button class="tag" onclick="fillTaskTemplate('去大厅/银行办业务')">🏦 银行办业务</button>
+                <button class="tag" onclick="fillTaskTemplate('彻底清理凌乱的房间')">🧹 清理凌乱房间</button>
+                <button class="tag" onclick="fillTaskTemplate('预约独自去医院就医')">🏥 医院独自就医</button>
+                <button class="tag" onclick="fillTaskTemplate('准备出门防漏忘清单')">🚗 出门防漏清单</button>
+            </div>
+        </div>
+
+        <div>
+            <input type="text" id="task-input" placeholder="输入让你焦虑的模糊任务，例如：报销单据...">
+            <div class="action-btns">
+                <button class="paste-btn" onclick="pasteFromClipboard('task-input')">📋 粘贴</button>
+                <button class="primary-btn" onclick="breakdownTask()">🚀 一键拆解</button>
+                <button onclick="resetApp('task')">重置</button>
+            </div>
+        </div>
+
+        <div id="guide-box" class="guide-box">
+            ⚠ <strong>行为指南：</strong> 请戴上降噪耳机。现在你的世界里 <strong>只有高亮的第一步</strong>。
+        </div>
+        
+        <div id="task-ai-prompt-box" class="ai-prompt-box">
+            <p style="margin-top:0; font-size: 0.8rem; color:var(--ai-text);">💡 未知任务。请复制 Prompt 发给 AI（你的外置前额叶）：</p>
+            <div id="task-prompt-content" class="prompt-text"></div>
+            <div class="action-btns" style="margin-bottom:0;">
+                <button class="paste-btn" onclick="copyPrompt('task-prompt-content')">📋 复制</button>
+                <button onclick="jumpToAI('https://gemini.google.com/app')">✨ Gemini</button>
+                <button onclick="jumpToAI('https://kimi.moonshot.cn/')">🌙 Kimi</button>
+            </div>
+        </div>
+        
+        <div id="steps-container"></div>
+    </div>
+
+    <!-- ================= 模块二：社交暗语解码器 ================= -->
+    <div id="view-social" class="view-section">
+        <div class="category-tabs">
+            <button class="tab-btn active" onclick="switchCategory('work')">🏢 职场黑话</button>
+            <button class="tab-btn" onclick="switchCategory('social')">☕ 日常交际</button>
+            <button class="tab-btn" onclick="switchCategory('feedback')">💬 情感反馈</button>
+        </div>
+        <div id="tags-container" class="template-tags"></div>
+
+        <div>
+            <input type="text" id="social-input" placeholder="直接粘贴对方的话，例如：原則上沒問題...">
+            <div class="action-btns">
+                <button class="paste-btn" onclick="pasteFromClipboard('social-input')">📋 粘贴</button>
+                <button class="primary-btn" onclick="processDecoding()">🔍 解码</button>
+                <button onclick="resetApp('social')">重置</button>
+            </div>
+        </div>
+
+        <div id="social-decoder-box" class="social-decoder-box">
+            <div style="font-size: 0.9rem; color: var(--prob-bar); margin-bottom: 12px; font-weight: bold;" id="social-context-header">🔍 解码中...</div>
+            <div id="prob-bars-container"></div>
+            <div class="script-content">
+                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 4px;">🤖 无耗能回复剧本 (直接照抄)：</div>
+                <div id="social-script-content"></div>
+            </div>
+        </div>
+        
+        <div id="social-ai-prompt-box" class="ai-prompt-box">
+            <p style="margin-top:0; font-size: 0.8rem; color:var(--ai-text);">💡 未收录暗语。请复制 Prompt 发给 AI 解码：</p>
+            <div id="social-prompt-content" class="prompt-text"></div>
+            <div class="action-btns" style="margin-bottom:0;">
+                <button class="paste-btn" onclick="copyPrompt('social-prompt-content')">📋 复制</button>
+                <button onclick="window.open('https://gemini.google.com/app', '_blank')">✨ Gemini</button>
+                <button onclick="window.open('https://kimi.moonshot.cn/', '_blank')">🌙 Kimi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 模块三：多巴胺与秩序天平 ================= -->
+    <div id="view-energy" class="view-section">
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px;">
+            AuDHD 大脑每天都在“渴求多巴胺”与“维持秩序”之间拉锯。通过主动干预，防止触发被动的<strong>神经能量枯竭 (Autistic Burnout)</strong>。
+        </p>
+
+        <div class="energy-control-panel">
+            <div class="energy-card charge">
+                <div class="energy-card-title"><span>🔋 临床干预与感官充电 (Charge)</span></div>
+                <div class="energy-grid">
+                    <button class="e-btn add" onclick="showChargeModal('interest')"><span>💡 沉浸特殊兴趣</span><span>+20%</span></button>
+                    <button class="e-btn add" onclick="showChargeModal('music')"><span>🎧 戴降噪耳机听音乐</span><span>+15%</span></button>
+                    <button class="e-btn add" onclick="showChargeModal('solitude')"><span>🛋️ 无要求独处</span><span>+15%</span></button>
+                    <button class="e-btn add" onclick="showChargeModal('stimming')"><span>🏃 物理与感官调节</span><span>+15%</span></button>
+                    <button class="e-btn add" onclick="showChargeModal('bodydouble')"><span>👥 虚拟替身 (Focusmate)</span><span>+15%</span></button>
+                    <button class="e-btn add" onclick="adjustEnergy(100)" style="background-color: var(--energy-safe); color: #fff; justify-content: center;">
+                        <span>🔄 彻底感官充电 (恢复100%)</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="energy-card">
+                <div class="energy-card-title"><span>⚠️ 记录隐性内耗 (Drain)</span></div>
+                <div class="energy-grid">
+                    <button class="e-btn drain" onclick="adjustEnergy(-20)"><span>🗣️ 强迫社交伪装(Masking)</span><span>-20%</span></button>
+                    <button class="e-btn drain" onclick="adjustEnergy(-30)"><span>🤯 突发计划变更</span><span>-30%</span></button>
+                    <button class="e-btn drain" onclick="adjustEnergy(-25)"><span>🔊 严重感官过载</span><span>-25%</span></button>
+                    <button class="e-btn drain" onclick="adjustEnergy(-15)"><span>🤔 陷入决策瘫痪</span><span>-15%</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗 (Modal) -->
+    <div id="charge-modal" class="modal-overlay" onclick="if(event.target===this) closeChargeModal()">
+        <div class="modal-box">
+            <div id="modal-title" class="modal-title"></div>
+            <div id="modal-content" class="modal-content"></div>
+            <button class="primary-btn" style="width: 100%;" onclick="confirmCharge()">执行并获取能量</button>
+        </div>
+    </div>
+
+    <!-- 📱 底部导航栏 -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchView('task', this)">
+            <span style="font-size: 1.3rem;">🎯</span><span>任务拆解</span>
+        </div>
+        <div class="nav-item" onclick="switchView('social', this)">
+            <span style="font-size: 1.3rem;">🔍</span><span>社交解码</span>
+        </div>
+        <div class="nav-item" onclick="switchView('energy', this)">
+            <span style="font-size: 1.3rem;">⚖️</span><span>能量天平</span>
+        </div>
+    </div>
+
+    <script>
+        // 💡 防伪层 4：控制台开发者彩蛋 & JS 混淆签名
+        const _0xAuDHD_Sig = "AuDHD_Action_Guide_Original_Author_2026";
+        console.log(
+            "%c🧠 AuDHD 执行功能减压舱 %c\n\n本项目代码专为神经多样性 (Neurodivergent) 群体公益定制。\n严禁任何形式的商业盗用、扒站与包装牟利！\nCopyright © 2026", 
+            "color: #7FB093; font-size: 20px; font-weight: bold; border-bottom: 2px solid #7FB093; padding-bottom: 5px;", 
+            "color: #888; font-size: 13px; line-height: 1.5;"
+        );
+
+        // ================= 昼夜模式与能量核心 =================
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('theme-toggle-btn');
+            if (body.getAttribute('data-theme') === 'light') {
+                body.removeAttribute('data-theme'); btn.innerText = '☀️';
+            } else {
+                body.setAttribute('data-theme', 'light'); btn.innerText = '🌙';
+            }
+        }
+
+        let currentEnergy = 100;
+        function adjustEnergy(amount) {
+            currentEnergy += amount;
+            if (currentEnergy > 100) currentEnergy = 100;
+            if (currentEnergy < 0) currentEnergy = 0;
+            updateEnergyUI();
+        }
+
+        function updateEnergyUI() {
+            const fill = document.getElementById('energy-bar-fill');
+            const text = document.getElementById('energy-text');
+            const warning = document.getElementById('overload-warning');
+            fill.style.width = currentEnergy + '%';
+            text.innerText = currentEnergy + '%';
+            
+            if (currentEnergy <= 30) {
+                fill.classList.add('low');
+                warning.style.display = 'block';
+            } else {
+                fill.classList.remove('low');
+                warning.style.display = 'none';
+            }
+        }
+
+        // ================= SPA 视图与文案切换 =================
+        function switchView(viewName, element) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(`view-${viewName}`).classList.add('active');
+
+            const subtitle = document.getElementById('global-subtitle');
+            if(viewName === 'task') subtitle.innerText = "—— 拒绝焦虑瘫痪 · 将模糊任务原子化拆解 ——";
+            if(viewName === 'social') subtitle.innerText = "—— 剥离社交反刍 · 将人类模糊暗示代码化 ——";
+            if(viewName === 'energy') subtitle.innerText = "—— 认知能量追踪 · 守护大脑续航 ——";
+        }
+
+        async function pasteFromClipboard(inputId) {
+            try { document.getElementById(inputId).value = await navigator.clipboard.readText(); } 
+            catch(err) { alert("剪贴板读取失败，请检查浏览器权限或直接使用长按粘贴。"); }
+        }
+
+        function copyPrompt(contentId) {
+            adjustEnergy(-5);
+            const text = document.getElementById(contentId).innerText;
+            navigator.clipboard.writeText(text).then(() => alert('✅ 已复制！请前往 AI 粘贴。'));
+        }
+        function jumpToAI(url) { adjustEnergy(-10); window.open(url, '_blank'); }
+
+        // ================= 弹窗指导逻辑 (Modal) =================
+        let pendingEnergyAmount = 0;
+        const modalData = {
+            'music': { title: '🎧 听觉隔离 (Auditory Isolation)', content: '不可预测的环境噪音是消耗 AuDHD 前额叶能量的核心元凶。<br><br><b>💡 临床建议：</b>播放双侧刺激音乐 (Bilateral Stimulation Music)、褐噪音 (Brown Noise) 或你最熟悉、可预测的重复歌单（如游戏原声），以物理方式强制建立安全边界。', amount: 15 },
+            'solitude': { title: '🛋️ 移除负荷 (Masking-Free Zone)', content: '持续的“双重伪装”会耗尽认知资源。你需要一个对你没有任何要求的物理空间。<br><br><b>💡 临床建议：</b>退缩到一个光线昏暗的环境。允许自己完全卸下伪装 (Unmasking)——不需要说话，不需要维持眼神接触，让过度刺激的神经系统进入深度休眠。', amount: 15 },
+            'stimming': { title: '🏃 迷走神经激活与体感刺激', content: '物理刺激能迅速打断执行功能瘫痪和情绪崩溃 (Meltdown)。<br><br><b>💡 临床建议：</b><br>1. <b>哺乳动物潜水反射 (Dive Reflex)：</b>用冷水洗脸或敷冰块，强制重置迷走神经。<br>2. <b>内感唤醒 (Interoception)：</b>双手紧握一杯温热的饮品，感受温度的传递。<br>3. <b>深层触压：</b>使用重力毯，或毫无羞耻感地使用解压玩具进行自我刺激 (Stimming)。', amount: 15 },
+            'bodydouble': { title: '👥 虚拟替身陪伴 (Body Doubling)', content: '当你面临严重的任务启动瘫痪时，独自死磕只会加剧内耗。<br><br><b>💡 临床建议：</b>尝试神经多样性友好的“替身学习法”。推荐使用 <b>Focusmate</b> 等虚拟自习室平台。通过与另一位不带评判的伙伴共享镜头，利用“无声的同侪效应”充当你的外置前额叶，极大降低启动阻力。', amount: 15 },
+            'interest': { title: '💡 多巴胺安全区 (Special Interests)', content: '对于 AuDHD 来说，极度痴迷的特殊兴趣不仅是爱好，更是大脑的充电器。<br><br><b>💡 临床建议：</b>允许自己毫无负罪感地沉浸在特殊兴趣中 (Hyperfocus)。这能迅速为你枯竭的多巴胺系统充电，并为你重新建立对世界的确定感与秩序感。', amount: 20 }
+        };
+
+        function showChargeModal(type) {
+            const data = modalData[type];
+            document.getElementById('modal-title').innerHTML = data.title;
+            document.getElementById('modal-content').innerHTML = data.content;
+            pendingEnergyAmount = data.amount;
+            const overlay = document.getElementById('charge-modal');
+            overlay.style.display = 'flex';
+            setTimeout(() => overlay.classList.add('show'), 10);
+        }
+        function confirmCharge() { adjustEnergy(pendingEnergyAmount); closeChargeModal(); }
+        function closeChargeModal() {
+            const overlay = document.getElementById('charge-modal');
+            overlay.classList.remove('show');
+            setTimeout(() => overlay.style.display = 'none', 300);
+        }
+
+        // ================= 模块一与二 基础逻辑 =================
+        const taskDB = {
+            '给导师/领导写邮件': ["打开邮件客户端", "填入对方邮箱", "写明客观标题", "正文列出3个事实", "点击发送并关闭"],
+            '去大厅/银行办业务': ["证件放入口袋", "穿鞋出门", "直奔取号机", "戴降噪耳机等待", "只回答具体问题"],
+            '彻底清理凌乱的房间': ["拿垃圾袋站中央", "只捡废纸/外卖盒", "垃圾袋打结", "衣服全扔洗衣篓", "喝水停止打扫"],
+            '预约独自去医院就医': ["拿上医保卡/身份证", "进医院直接走向自助挂号机", "向医生只说最痛部位", "拿单去收费处扫码交钱", "去药房拿药并立刻离开"],
+            '准备出门防漏忘清单': ["摸左口袋：确认手机", "摸右口袋：确认钥匙", "摸包：确认证件", "穿外套和鞋子", "锁门并听锁舌声音"]
+        };
+        function fillTaskTemplate(t) { document.getElementById('task-input').value = t; breakdownTask(); }
+        function breakdownTask() {
+            const input = document.getElementById('task-input').value.trim();
+            if (!input) return;
+            adjustEnergy(-15);
+            const container = document.getElementById('steps-container');
+            const aiBox = document.getElementById('task-ai-prompt-box');
+            container.innerHTML = '';
+            if (taskDB[input]) {
+                aiBox.style.display = 'none'; 
+                taskDB[input].forEach((s, i) => {
+                    container.innerHTML += `<div class="step-item ${i===0?'active':''}" id="step-${i}">
+                        <input type="checkbox" onclick="handleStepCheck(${i}, ${taskDB[input].length})"><span style="flex:1">${s}</span></div>`;
+                });
+            } else {
+                document.getElementById('task-prompt-content').innerText = `作为AuDHD人士，我正面临执行功能瘫痪。请拆解【${input}】。要求：1. 定位核心阻力 2. 拆为5个纯物理动作 3. 包含破冰准备 4. 绝对剥离情绪评判。`;
+                aiBox.style.display = 'block';
+            }
+            document.getElementById('guide-box').style.display = 'block';
+        }
+        function handleStepCheck(idx, total) {
+            const el = document.getElementById(`step-${idx}`);
+            if (el.querySelector('input').checked) {
+                adjustEnergy(-5); el.classList.replace('active', 'completed');
+                if (idx + 1 < total) document.getElementById(`step-${idx + 1}`).classList.add('active');
+            } else {
+                el.classList.replace('completed', 'active');
+                for (let i = idx + 1; i < total; i++) {
+                    let next = document.getElementById(`step-${i}`);
+                    next.classList.remove('active', 'completed'); next.querySelector('input').checked = false;
+                }
+            }
+        }
+
+        const cueDB = {
+            'work': [
+                { cue: "原则上可以", ctx: "领导说“原则上可以”", probs: [{l:"有障碍/不同意",v:80}, {l:"真同意",v:20}], script: "“好的。请问落地还需要先解决哪几个具体障碍？”\n💡 这是告诉你现实不行，请追问具体条件。" },
+                { cue: "你看着办", ctx: "领导说“你看着办吧”", probs: [{l:"不想担责",v:70}, {l:"完全放权",v:30}], script: "“好的，我先出个大纲明天发您确认，没问题再推进。”\n💡 绝对不要闷头做！必须设立检查点。" }
+            ],
+            'social': [
+                { cue: "改天聚聚", ctx: "微信里“改天一起吃饭”", probs: [{l:"客套/结束",v:85}, {l:"真邀约",v:15}], script: "“好的，那你先忙，等大家都没那么忙了再联系。”\n💡 发送后直接结束对话，切勿追问具体哪天。" },
+                { cue: "不麻烦别人", ctx: "对方回“我不喜欢麻烦别人”", probs: [{l:"潜台词:你也别麻烦我",v:85}, {l:"真不好意思",v:15}], script: "“好的，那如果有需要随时说。”\n💡 对方在建立社交界线，字面接受并后退。" }
+            ],
+            'feedback': [
+                { cue: "以后再说", ctx: "对方说“再说吧”", probs: [{l:"委婉永久拒绝",v:90}, {l:"真需思考",v:10}], script: "“好的，那这个话题我们先放一放。”\n💡 把这视为“停止符”，永远不要再追问。" },
+                { cue: "我是为你好", ctx: "对方说“我是为你好才说”", probs: [{l:"要批评你且你不能气",v:95}, {l:"善意建议",v:5}], script: "“谢谢提醒，我会把建议纳入参考的。”\n💡 保持情绪隔离，听取事实，千万不要当场辩解。" }
+            ]
+        };
+        let currentCat = 'work';
+        function switchCategory(cat) { currentCat = cat; renderSocialTags(); }
+        function renderSocialTags() {
+            const container = document.getElementById('tags-container');
+            container.innerHTML = '';
+            cueDB[currentCat].forEach(item => {
+                container.innerHTML += `<button class="tag" onclick="document.getElementById('social-input').value='${item.cue}'; processDecoding();">“${item.cue}”</button>`;
+            });
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active');
+                if(b.innerText.includes(currentCat==='work'?'职场':currentCat==='social'?'交际':'反馈')) b.classList.add('active');
+            });
+        }
+        renderSocialTags();
+
+        function processDecoding() {
+            const input = document.getElementById('social-input').value.trim();
+            if (!input) return;
+            adjustEnergy(-5);
+            let found = null;
+            for (let k in cueDB) {
+                let m = cueDB[k].find(i => i.cue === input || input.includes(i.cue));
+                if (m) { found = m; break; }
+            }
+            if (found) {
+                document.getElementById('social-context-header').innerText = `🔍 场景分析：${found.ctx}`;
+                let probHtml = '';
+                found.probs.forEach(p => {
+                    probHtml += `<div class="prob-container"><div class="prob-label">${p.l}</div>
+                        <div class="prob-bar-wrapper"><div class="prob-bar-fill" style="width:${p.v}%"></div></div>
+                        <div style="font-family:monospace; font-size:0.8rem">${p.v}%</div></div>`;
+                });
+                document.getElementById('prob-bars-container').innerHTML = probHtml;
+                document.getElementById('social-script-content').innerHTML = found.script.replace(/\n/g, '<br><br>');
+                document.getElementById('social-decoder-box').style.display = 'block';
+                document.getElementById('social-ai-prompt-box').style.display = 'none';
+            } else {
+                document.getElementById('social-prompt-content').innerText = `作为存在述情障碍的AuDHD人士，请帮我解码：【${input}】。1.真实意图概率 2.无耗能回复剧本 3.动作指导(告诉我不用反刍什么)。严禁情绪安慰。`;
+                document.getElementById('social-ai-prompt-box').style.display = 'block';
+                document.getElementById('social-decoder-box').style.display = 'none';
+            }
+        }
+        function resetApp(mod) {
+            document.getElementById(`${mod}-input`).value = '';
+            if(mod === 'task') { 
+                document.getElementById('steps-container').innerHTML = ''; 
+                document.getElementById('guide-box').style.display = 'none'; 
+                document.getElementById('task-ai-prompt-box').style.display = 'none';
+            } else { 
+                document.getElementById('social-decoder-box').style.display = 'none'; 
+                document.getElementById('social-ai-prompt-box').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
+```
