@@ -47,21 +47,14 @@
         h1, h2, h3 { font-weight: 500; margin: 0; }
         
         /* ================= 顶栏重构 ================= */
-        .header {
-            display: flex; flex-direction: column; 
-            border-bottom: 1px solid var(--border-color); 
-            padding-bottom: 1rem; margin-bottom: 1.2rem;
-        }
+        .header { display: flex; flex-direction: column; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.2rem; }
         .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         .header-title { font-size: 1.3rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .theme-toggle { background: none; border: none; font-size: 1.4rem; cursor: pointer; padding: 4px; flex-shrink: 0; transition: transform 0.2s; }
         .theme-toggle:active { transform: scale(0.9); }
         .subtitle { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.5rem; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 
-        @media (max-width: 400px) {
-            .header-title { font-size: 1.1rem; }
-            .subtitle { font-size: 0.75rem; }
-        }
+        @media (max-width: 400px) { .header-title { font-size: 1.1rem; } .subtitle { font-size: 0.75rem; } }
 
         /* ================= 全局能量天平 ================= */
         .energy-widget { background-color: var(--surface-color); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 8px; margin-bottom: 20px; transition: all 0.4s ease; }
@@ -117,19 +110,9 @@
         .e-btn.add { border-color: var(--energy-safe); color: var(--energy-safe); }
         .e-btn.add:hover { background-color: var(--energy-safe); color: #fff; }
 
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
-            display: none; justify-content: center; align-items: center; z-index: 2000;
-            opacity: 0; transition: opacity 0.3s ease;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 2000; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.show { opacity: 1; display: flex; }
-        .modal-box {
-            background-color: var(--surface-color); border: 1px solid var(--border-color);
-            border-radius: 12px; padding: 24px; max-width: 90%; width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transform: translateY(20px); transition: transform 0.3s ease;
-        }
+        .modal-box { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; max-width: 90%; width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: translateY(20px); transition: transform 0.3s ease; }
         .modal-overlay.show .modal-box { transform: translateY(0); }
         .modal-title { font-size: 1.05rem; color: var(--energy-safe); margin-bottom: 14px; font-weight: bold; }
         .modal-content { font-size: 0.9rem; color: var(--text-primary); margin-bottom: 24px; line-height: 1.6; }
@@ -206,7 +189,7 @@
         </div>
         
         <div id="task-ai-prompt-box" class="ai-prompt-box">
-            <p style="margin-top:0; font-size: 0.8rem; color:var(--ai-text);">💡 未知任务。请复制 Prompt 发给 AI（你的外置前额叶）：</p>
+            <p style="margin-top:0; font-size: 0.8rem; color:var(--ai-text);">💡 系统未录入该任务。请复制以下专为 AuDHD 优化的 Prompt，发给 AI（你的外置前额叶）进行拆解：</p>
             <div id="task-prompt-content" class="prompt-text"></div>
             <div class="action-btns" style="margin-bottom:0;">
                 <button class="paste-btn" onclick="copyPrompt('task-prompt-content')">📋 复制</button>
@@ -407,18 +390,55 @@
             setTimeout(() => overlay.style.display = 'none', 300);
         }
 
-        // ================= 模块一与二 基础逻辑 =================
+        // ================= 💡 重构：带有详尽解释与理论支撑的临床级任务拆解库 =================
         const taskDB = {
-            '给导师/领导写邮件': ["打开邮件客户端", "填入对方邮箱", "写明客观标题", "正文列出3个事实", "点击发送并关闭"],
-            '去大厅/银行办业务': ["证件放入口袋", "穿鞋出门", "直奔取号机", "戴降噪耳机等待", "只回答具体问题"],
-            '准备出门防漏忘清单': ["摸左口袋：确认手机", "摸右口袋：确认钥匙", "摸包：确认证件", "穿外套和鞋子", "锁门并听锁舌声音"],
-            // 💡 针对 AuDHD 难点新增的 3 个生活场景
-            '折叠并收纳堆积的衣物': ["找一个洗衣篮把所有衣物装进去", "坐在地上，简单按上衣和下装分两堆", "只把上衣折叠并放回抽屉", "剩下的裤子或袜子直接扔进收纳盒", "喝口水，结束任务并原谅自己没有做到完美"],
-            '清理积压的未读消息': ["设定 25 分钟倒计时", "直接批量删除所有广告或群聊消息", "找出 3 条必须回复的核心消息", "使用简短客观的固定句式回复这 3 个人", "关闭软件，告诉自己剩下的明天再看"],
-            '当面拆礼物并给出反应': ["深呼吸，告诉自己只需维持 1 分钟的社交微笑", "慢慢撕开包装，给自己留出心理缓冲时间", "看到礼物后，挑出 1 个具体细节夸奖（如颜色、质感）", "看着对方的眼睛（或眉心）真诚说一句谢谢", "将礼物收好，转移话题或去洗手间喘口气"]
+            '给导师/领导写邮件': [
+                "打开邮件客户端，但在完成前绝对【不要】填收件邮箱<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：防止写正文时误触发送引发恐慌，建立执行任务的安全感。</span>",
+                "正文直接列出 3 个客观事实，使用圆点（•）排版<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：AuDHD 极易过度解释 (Over-explaining)，强制字数限制能打破完美主义瘫痪。</span>",
+                "用客观的陈述句写明邮件标题<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：降低情绪负荷，将沟通降级为纯粹的信息传递。</span>",
+                "检查无误后，填入对方邮箱并点击发送<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：确保一切就绪后的最后一步机械动作。</span>",
+                "立刻关闭网页或App，去做另一件事<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：物理切断动作，防止发送后陷入“对方会怎么想”的无尽社交反刍。</span>"
+            ],
+            '去大厅/银行办业务': [
+                "戴上降噪耳机，把证件和材料放入口袋<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：提前建立听觉隔离屏障，防止不可预测的公共环境噪音消耗前额叶能量。</span>",
+                "穿上最熟悉的舒适衣物和鞋子出门<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：降低触觉敏感带来的干扰，节约认知带宽。</span>",
+                "进大厅后，不看周围，直奔取号机拿号<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：避免视觉和社交信息过载，目标绝对单一化。</span>",
+                "找一个背靠墙的角落坐下等待<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：掌控背后的空间，减少环境中的不可控因素，降低交感神经警觉状态。</span>",
+                "只回答柜员提出的具体问题，不主动发散<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：节约维持社交伪装 (Masking) 的能量，完成后立刻离开。</span>"
+            ],
+            '准备出门防漏忘清单': [
+                "摸左边口袋：确认手机在里面<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：将记忆转化为纯物理触觉动作，绕开 AuDHD 脆弱的工作记忆 (Working Memory)。</span>",
+                "摸右边口袋：确认钥匙在里面<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：建立固定的物理位置映射，形成肌肉记忆。</span>",
+                "摸背包指定夹层：确认证件与耳机在里面<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：降噪耳机是出门的防过载救命稻草，必须单独确认。</span>",
+                "穿上外套和鞋子<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：按固定顺序执行最后着装。</span>",
+                "关门，并停顿 1 秒钟听锁舌卡住的声音<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：用听觉反馈确认任务完成，防止下楼后陷入“我到底锁门没”的强迫焦虑。</span>"
+            ],
+            '折叠并收纳堆积的衣物': [
+                "打开一部你最熟悉的“舒适剧”或播客<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：运用“任务叠加 (Task Stacking)”[3]，为枯燥任务补充必须的多巴胺启动燃料。</span>",
+                "拿一个大洗衣篮，把地上的衣服全部扔进去<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：将“满地都是”的视觉混乱打包，瞬间降低视觉过载与面前的“畏难之墙”。</span>",
+                "只把上衣挑出来，简单折叠放入抽屉<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：缩小任务范围，一次只做一种分类，避免决策疲劳。</span>",
+                "剩下的裤子或袜子，直接扔进收纳盒里不折叠<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：允许不完美！神经多样性系统需要这种灵活的容错率。</span>",
+                "喝一杯水，大声告诉自己“这样已经足够好了”<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：给予自己“许可条 (Permission Slip)”[5]，消除内化的生产力羞耻感。</span>"
+            ],
+            '清理积压的未读消息': [
+                "设定一个 25 分钟的视觉计时器 (Visual Timer)<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：将抽象的时间具象化[4]，建立安全的“时间盒”，极大降低启动摩擦力。</span>",
+                "直接批量左滑/删除所有的广告或无关群聊<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：迅速扫除数字视觉噪音，清理大脑的认知内存。</span>",
+                "找出 3 条必须回复的核心消息，打上星号<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：限制目标数量，防止面对几十个红点时触发执行瘫痪。</span>",
+                "使用简短客观的固定句式回复这 3 个人<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：剥离讨好型人格的社交伪装，减少遣词造句时的情绪劳动。</span>",
+                "计时器一响立刻停止，剩下的明天再说<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：不强迫耗尽能量。保护执行底线比一次性做完美更重要。</span>"
+            ],
+            '当面拆礼物并给出反应': [
+                "深呼吸，告诉自己只需要维持 1 分钟的社交微笑<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：明确社交伪装 (Masking) 的时间边界，降低心理压力。</span>",
+                "慢慢撕开包装，给自己留出 5 秒钟的心理缓冲时间<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：延迟面对未知事物，给神经系统适应新刺激（颜色、气味）的空间。</span>",
+                "看到礼物后，挑出 1 个具体的客观细节夸奖（如颜色、质感）<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：绕开面部表情管理的尴尬，用具体的物理特征代替虚无的情绪表达。</span>",
+                "看着对方的鼻子或眉心（代替眼神接触），真诚说一句谢谢<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：避免强制眼神接触带来的不适感，同时满足神经典型者的社交期待。</span>",
+                "将礼物收好，转移话题或借故去洗手间喘口气<br><span style='font-size:0.8rem; color:var(--text-secondary);'>💡 原理：主动撤离高压社交场景，给大脑留出重置与感官恢复的时间。</span>"
+            ]
         };
         
         function fillTaskTemplate(t) { document.getElementById('task-input').value = t; breakdownTask(); }
+        
+        // 💡 重构：针对 AuDHD 史诗级优化的 AI Prompt
         function breakdownTask() {
             const input = document.getElementById('task-input').value.trim();
             if (!input) return;
@@ -426,18 +446,20 @@
             const container = document.getElementById('steps-container');
             const aiBox = document.getElementById('task-ai-prompt-box');
             container.innerHTML = '';
+            
             if (taskDB[input]) {
                 aiBox.style.display = 'none'; 
                 taskDB[input].forEach((s, i) => {
                     container.innerHTML += `<div class="step-item ${i===0?'active':''}" id="step-${i}">
-                        <input type="checkbox" onclick="handleStepCheck(${i}, ${taskDB[input].length})"><span style="flex:1">${s}</span></div>`;
+                        <input type="checkbox" onclick="handleStepCheck(${i}, ${taskDB[input].length})"><div style="flex:1; line-height: 1.5;">${s}</div></div>`;
                 });
             } else {
-                document.getElementById('task-prompt-content').innerText = `作为AuDHD人士，我正面临执行功能瘫痪。请拆解【${input}】。要求：1. 定位核心阻力 2. 拆为5个纯物理动作 3. 包含破冰准备 4. 绝对剥离情绪评判。`;
+                document.getElementById('task-prompt-content').innerText = `作为我的“外置前额叶”，我是一名 AuDHD（自闭症合并ADHD）人士，目前正面临严重的“执行功能瘫痪 (Executive Dysfunction Paralysis)”和“启动障碍”，面前这堵“畏难之墙 (Wall of Awful)”让我极其内耗。\n\n请帮我将【${input}】这个模糊任务，拆解为专门针对 AuDHD 神经系统的执行指南。要求如下：\n\n1. 【定位核心阻力】：一句话指出这个任务为什么会让 AuDHD 大脑卡壳（如：步骤过多、感官过载、决策疲劳等）。\n2. 【5个纯物理微动作】：将任务拆解为5个绝对不需要动脑、无需情绪参与的纯物理机械动作。\n3. 【低阻力破冰】：第一步必须极其微小（如：设定一个25分钟的视觉计时器、或使用“任务叠加”播放一个熟悉的播客）。\n4. 【无评判与许可】：在最后一步给予我“可以不完美/随时停下”的明确许可 (Permission Slip)，绝对剥离诸如“加油、这很简单”的有毒正能量安慰，只要冷酷客观的代码式指令。`;
                 aiBox.style.display = 'block';
             }
             document.getElementById('guide-box').style.display = 'block';
         }
+
         function handleStepCheck(idx, total) {
             const el = document.getElementById(`step-${idx}`);
             if (el.querySelector('input').checked) {
@@ -452,7 +474,6 @@
             }
         }
 
-        // 💡 完整扩充为 15 条高频社交内耗暗语
         const cueDB = {
             'work': [
                 { cue: "原则上可以", ctx: "请求或提方案时，领导说“原则上可以”", probs: [{l:"有障碍/实则不行",v:80}, {l:"真的同意",v:20}], script: "“好的。请问落地还需要先解决哪几个具体障碍？”\n💡 这是告诉你现实不行，不要直接去执行，要追问具体条件。" },
